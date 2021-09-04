@@ -13,6 +13,8 @@ Hello World!
 My name is Mickaël alias sodbaveka.
 I created this repository as a lab to discover ci/cd, jenkins, docker, and kubernetes.
 
+First step : Creation of a cloudformation file to instanciate ec2 jenkins server on a personnal VPC
+
 ...In progress...
 
 Please feel free to message me if you have any questions.
@@ -22,14 +24,14 @@ Bye ;-)
 ### Technologies
 ***
 A list of technologies used within the project :
-* Linux Ubuntu 20.04.2 LTS
-* Linux Debian 11
+* AlmaLinux release 8.4 (Electric Cheetah)
+* AWS CloudFormation
 
 ### Installation
 ***
 * Download :
 ```
-$  git clone https://github.com/sodbaveka/k8s_test_lab.git
+$  git clone https://github.com/sodbaveka/jenkins_on_aws_test_lab.git
 ```
 
 * Launch :
