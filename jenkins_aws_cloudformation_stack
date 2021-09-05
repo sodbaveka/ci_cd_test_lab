@@ -276,10 +276,15 @@ Resources:
 
           echo "OS update : In progress..." >> /var/log/userdata.txt
           yum update -y && echo "OS update : Completed." >> /var/log/userdata.txt
+
+          amazon-linux-extras install epel -y
           
+          echo "Jenkins installation : In progress..." >> /var/log/userdata.txt
           wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
           rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
           yum upgrade
-          yum install -y epel-release java-11-openjdk-devel
+          amazon-linux-extras install java-openjdk11 -y
           yum install -y jenkins
-          systemctl daemon-reload
+          systemctl enable jenkins
+          systemctl start jenkins
+          echo "Jenkins installation : Completed." >> /var/log/userdata.txt
