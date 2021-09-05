@@ -289,3 +289,7 @@ Resources:
           systemctl enable jenkins
           systemctl start jenkins
           echo "Jenkins installation : Completed." >> /var/log/userdata.txt
+
+          mkdir /artefacts
+          chown jenkins:jenkins /artefacts
+          
