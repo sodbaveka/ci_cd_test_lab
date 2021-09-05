@@ -26,6 +26,36 @@ pipeline {
                 echo 'OK'
             }
         }    
+        stage('Staging deployment') {
+            steps {
+                echo 'Staging deployment...'
+                echo 'OK'
+            }
+        }   
+        stage('Performance test') {
+            steps {
+                echo 'Performance testing...'
+                echo 'OK'
+            }
+        }   
+        stage('Production') {
+            steps {
+                echo 'Deploying...'
+                echo 'OK'
+            }
+        }   
+        stage('Monitoring') {
+            steps {
+                echo 'Monitoring...'
+                echo 'OK'
+            }
+        }   
+        stage('Notification') {
+            steps {
+                echo 'Notifying...'
+                echo 'OK'
+            }
+        }   
     }
     post {
         always {
