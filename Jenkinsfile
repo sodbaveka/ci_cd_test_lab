@@ -23,7 +23,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo 'Packaging...'
-                sh "echo jenkins-artefact-${NODE_NAME}-${JOB_NAME}-${BUILD_NUMBER}" > ./index.html
+                sh "echo jenkins-artefact-${NODE_NAME}-${JOB_NAME}-${BUILD_NUMBER} > ./index.html"
                 echo 'OK'
             }
         }    
