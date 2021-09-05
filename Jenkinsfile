@@ -23,6 +23,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo 'Packaging...'
+                sh "echo ${BUILD_NUMBER}"
                 echo 'OK'
             }
         }    
@@ -32,7 +33,7 @@ pipeline {
                 echo 'OK'
             }
         }   
-        stage('Performance test') {
+        stage('Performance') {
             steps {
                 echo 'Performance testing...'
                 echo 'OK'
