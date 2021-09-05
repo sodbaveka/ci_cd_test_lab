@@ -23,7 +23,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo 'Packaging...'
-                sh "echo artefact-${BUILD_TAG} > ~/index2.html"
+                sh "echo <H1>artefact-${BUILD_TAG}<H1> > /home/index3.html"
                 echo 'OK'
             }
         }    
