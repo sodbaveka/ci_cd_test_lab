@@ -27,7 +27,8 @@ pipeline {
                 echo 'Packaging...'
                 sh "mkdir -p ${JOB_NAME}/artefacts"
                 sh "echo artefact-${BUILD_TAG} > ${JENKINS_HOME}/${JOB_NAME}/artefacts/index.html"
-                sh "mkdir -p /home/theseus/${JOB_NAME}/artefacts"
+                sh "cd /home/theseus/${JOB_NAME}"
+                sh "mkdir -p /artefacts"
                 echo 'OK'
             }
         }    
