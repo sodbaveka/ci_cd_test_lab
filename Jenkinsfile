@@ -24,7 +24,8 @@ pipeline {
         stage('Package') {
             steps {
                 echo 'Packaging...'
-                sh "echo artefact-${BUILD_TAG} > /artefacts/index.html"
+                sh 'mkdir artefacts'
+                sh "echo artefact-${BUILD_TAG} > artefacts/index.html"
                 echo 'OK'
             }
         }    
