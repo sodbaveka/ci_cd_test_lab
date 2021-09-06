@@ -5,7 +5,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
-                sh 'echo $BASH'
+                sh "echo workspace=${WORKSPACE}"
+                sh "echo jenkins_home=${JENKINS_HOME}"
             }
         }
         stage('Test') {
