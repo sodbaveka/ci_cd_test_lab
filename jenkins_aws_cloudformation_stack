@@ -264,7 +264,7 @@ Resources:
           SubnetId: !Ref PublicSubnetA
       Tags:
         - Key: Name
-          Value: 'sodbaveka-ec2-jenkins'
+          Value: 'sodbaveka-jenkins-ec2'
         - Key: Project
           Value: 'P14_OCR'
       UserData: 
@@ -297,4 +297,45 @@ Resources:
           usermod -a -G docker jenkins
           echo "Docker installation : Completed." >> /var/log/userdata.txt
           reboot
+ #
+ #
+ ### Next step : Create staging EC2 instance 
+  AwsStagingEc2:
+    Type : AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-00c08ad1a6ca8ca7c
+      KeyName: P10-aws
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: "0"
+          GroupSet: 
+            - !Ref InfraEC2SecurityGroup
+          SubnetId: !Ref PublicSubnetA
+      Tags:
+        - Key: Name
+          Value: 'sodbaveka-staging-ec2'
+        - Key: Project
+          Value: 'P14_OCR'
+      UserData: 
+        'Fn::Base64': !Sub |
+          #!/bin/bash
+          export STACK_NAME=${AWS::StackName}
+          echo "Stack name : "$STACK_NAME > /home/ec2-user/TEMOIN-001
+          echo "Who am i ? AwsJenkinsEc2" >> /home/ec2-user/TEMOIN-001
 
+          echo "OS update : In progress..." >> /var/log/userdata.txt
+          yum update -y && echo "OS update : Completed." >> /var/log/userdata.txt
+
+          amazon-linux-extras install epel -y
+          
+          echo "Docker installation : In progress..." >> /var/log/userdata.txt
+          amazon-linux-extras install docker
+          usermod -a -G docker ec2-user
+          systemctl start docker
+          echo "Docker installation : Completed." >> /var/log/userdata.txt
+
+          echo "Start the application : In progress..." >> /var/log/userdata.txt
+          docker run -d -p 8234:80 sodbaveka/sodbaveka-app:latest
+          echo "Start the application : Completed." >> /var/log/userdata.txt
+          
