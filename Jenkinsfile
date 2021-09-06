@@ -40,6 +40,8 @@ pipeline {
                     echo 'Pushing docker image...'
                     sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                     sh "docker push sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
+                    sh "docker tag sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER} sodbaveka/sodbaveka-app:latest"
+                    sh "docker push sodbaveka/sodbaveka-app:latest"
                     echo 'Push OK'
                 }    
             }

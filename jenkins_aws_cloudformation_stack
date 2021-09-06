@@ -292,7 +292,9 @@ Resources:
 
           echo "Docker installation : In progress..." >> /var/log/userdata.txt
           amazon-linux-extras install docker
-          service docker start
+          systemctl enable docker
           usermod -a -G docker ec2-user
           usermod -a -G docker jenkins
           echo "Docker installation : Completed." >> /var/log/userdata.txt
+          reboot
+
