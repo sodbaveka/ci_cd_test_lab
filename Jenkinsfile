@@ -34,7 +34,7 @@ pipeline {
         stage('Built docker image') {
             steps {
                 echo 'Building docker image...'
-                sh "docker build -t localhost/sodbaveka-app:v1.0.0"
+                sh "docker build -t localhost/sodbaveka-app:v1.0.0 ."
                 echo 'Build OK'
                 echo 'Running docker image...'
                 sh "docker run -d -p 8234:8234 localhost/sodbaveka-app:v1.0.0"
