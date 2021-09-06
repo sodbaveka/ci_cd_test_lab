@@ -311,7 +311,7 @@ Resources:
           DeviceIndex: "0"
           GroupSet: 
             - !Ref InfraEC2SecurityGroup
-          SubnetId: !Ref PublicSubnetA
+          SubnetId: !Ref PublicSubnetB
       Tags:
         - Key: Name
           Value: 'sodbaveka-staging-ec2'
