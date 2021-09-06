@@ -290,6 +290,7 @@ Resources:
           systemctl start jenkins
           echo "Jenkins installation : Completed." >> /var/log/userdata.txt
 
-          mkdir /artefacts
-          chown jenkins:jenkins /artefacts
-          
+          echo "Docker installation : In progress..." >> /var/log/userdata.txt
+
+          usermod -a -G docker jenkins
+          echo "Docker installation : Completed." >> /var/log/userdata.txt
