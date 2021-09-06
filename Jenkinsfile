@@ -31,20 +31,27 @@ pipeline {
                 echo 'OK'
             }
         }    
-        stage('Built docker image') {
+        stage('Built and push docker image') {
             steps {
                 echo 'Building docker image...'
-                sh "docker build -t localhost/sodbaveka-app:v1.0.${BUILD_NUMBER} ."
+                sh "docker build -t sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER} ."
                 echo 'Build OK'
+                withCredentials([usernameColonPassword(credentialsId: 'dockerhub',passwordVariable: 'DOCKER_PASSWORD',usernameVariable: 'DOCKER_USERNAME')]) {
+                    echo 'Pushing docker image...'
+                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                    sh "docker push sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
+                    echo 'Push OK'
+                }    
                 echo 'Running docker image...'
-                sh "docker run -d -p 8234:80 localhost/sodbaveka-app:v1.0.${BUILD_NUMBER}"
+                sh "docker run -d -p 8234:80 sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
                 echo 'Run OK'
             }
         }    
         stage('Staging deployment') {
             steps {
-                echo 'Staging deployment...'
-                echo 'OK'
+                echo 'Running docker image...'
+                sh "docker run -d -p 8234:80 localhost/sodbaveka-app:v1.0.${BUILD_NUMBER}"
+                echo 'Run OK'
             }
         }   
         stage('Performance') {
