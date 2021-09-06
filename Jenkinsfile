@@ -39,7 +39,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub',passwordVariable: 'DOCKER_PASSWORD',usernameVariable: 'DOCKER_USERNAME')]) {
                     echo 'Pushing docker image...'
                     sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-                    sh "docker push sodbaveka/jenkins_lab:/sodbaveka-app:v1.0.${BUILD_NUMBER}"
+                    sh "docker push sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
                     echo 'Push OK'
                 }    
             }
