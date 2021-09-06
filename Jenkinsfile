@@ -36,7 +36,7 @@ pipeline {
                 echo 'Building docker image...'
                 sh "docker build -t sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER} ."
                 echo 'Build OK'
-                withCredentials([usernameColonPassword(credentialsId: 'dockerhub',passwordVariable: 'DOCKER_PASSWORD',usernameVariable: 'DOCKER_USERNAME')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub',passwordVariable: 'DOCKER_PASSWORD',usernameVariable: 'DOCKER_USERNAME')]) {
                     echo 'Pushing docker image...'
                     sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                     sh "docker push sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
