@@ -35,8 +35,10 @@ pipeline {
             steps {
                 echo 'Building docker image...'
                 sh "docker build -t localhost/sodbaveka-docker:v1.0.0 ."
-                sh "docker run -d -p 8234:8234 localhost/sodbaveka-docker:v1.0.0"
-                echo 'OK'
+                echo 'Build OK'
+                echo 'Running docker image...'
+                sh "docker run -d -p 8234:80 localhost/sodbaveka-docker:v1.0.0"
+                echo 'Run OK'
             }
         }    
         stage('Staging deployment') {
