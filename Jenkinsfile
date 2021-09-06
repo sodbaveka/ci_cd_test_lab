@@ -37,7 +37,7 @@ pipeline {
                 
                 echo 'Build OK'
                 echo 'Running docker image...'
-                sh "docker run -d -p 8234:80 nginx"
+                sh "docker run -d -p 8234:80 docker.io/library/nginx:latest"
                 echo 'Run OK'
             }
         }    
