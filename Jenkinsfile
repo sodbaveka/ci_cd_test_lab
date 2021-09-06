@@ -34,7 +34,7 @@ pipeline {
         stage('Built docker image') {
             steps {
                 echo 'Building docker image...'
-                
+                echo 'ok'
                 echo 'Build OK'
                 echo 'Running docker image...'
                 sh "docker run -d -p 8234:80 docker.io/library/nginx:latest"
