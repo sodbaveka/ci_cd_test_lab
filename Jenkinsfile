@@ -7,6 +7,7 @@ pipeline {
                 echo 'Building...'
                 sh "echo workspace=${WORKSPACE}"
                 sh "echo jenkins_home=${JENKINS_HOME}"
+                sh "echo job=${JOB_NAME}"
             }
         }
         stage('Test') {
