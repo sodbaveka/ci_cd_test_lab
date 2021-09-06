@@ -42,15 +42,12 @@ pipeline {
                     sh "docker push sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
                     echo 'Push OK'
                 }    
-                echo 'Running docker image...'
-                sh "docker run -d -p 8234:80 sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
-                echo 'Run OK'
             }
         }    
         stage('Staging deployment') {
             steps {
                 echo 'Running docker image...'
-                sh "docker run -d -p 8234:80 localhost/sodbaveka-app:v1.0.${BUILD_NUMBER}"
+                sh "docker run -d -p 8234:80 sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
                 echo 'Run OK'
             }
         }   
