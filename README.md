@@ -54,6 +54,7 @@ A list of technologies used within the project :
 * AWS EC2
 * Docker
 * Jenkins
+* Kubernetes
 
 ### Installation
 ***

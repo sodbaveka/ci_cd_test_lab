@@ -311,7 +311,7 @@ Resources:
           DeviceIndex: "0"
           GroupSet: 
             - !Ref InfraEC2SecurityGroup
-          SubnetId: !Ref PublicSubnetB
+          SubnetId: !Ref PublicSubnetA
       Tags:
         - Key: Name
           Value: 'sodbaveka-staging-ec2'
@@ -322,7 +322,7 @@ Resources:
           #!/bin/bash
           export STACK_NAME=${AWS::StackName}
           echo "Stack name : "$STACK_NAME > /home/ec2-user/TEMOIN-001
-          echo "Who am i ? AwsJenkinsEc2" >> /home/ec2-user/TEMOIN-001
+          echo "Who am i ? AwsStagingEc2" >> /home/ec2-user/TEMOIN-001
 
           echo "OS update : In progress..." >> /var/log/userdata.txt
           yum update -y && echo "OS update : Completed." >> /var/log/userdata.txt
