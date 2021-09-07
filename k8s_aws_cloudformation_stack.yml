@@ -333,12 +333,25 @@ Resources:
           
           echo "Docker installation : In progress..." >> /var/log/userdata.txt
           amazon-linux-extras install docker
+          cat <<EOF | sudo tee /etc/docker/daemon.json
+          {
+            "exec-opts": ["native.cgroupdriver=systemd"],
+            "log-driver": "json-file",
+            "log-opts": {
+              "max-size": "100m"
+            },
+            "storage-driver": "overlay2"
+          }
+          EOF
           usermod -a -G docker ec2-user
-          systemctl start docker
+          systemctl enable docker
+          systemctl daemon-reload
+          systemctl restart docker
           echo "Docker installation : Completed." >> /var/log/userdata.txt
 
           echo "k8s installation : In progress..." >> /var/log/userdata.txt
           swapoff -a
+          sysctl net.bridge.bridge-nf-call-iptables=1
           cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
           [kubernetes]
           name=Kubernetes
@@ -352,12 +365,13 @@ Resources:
           setenforce 0
           sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
           yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
-          systemctl enable --now kubelet
+          systemctl enable kubelet
+          systemctl start kubelet
           echo "k8s installation : Completed." >> /var/log/userdata.txt
 
           echo "k8s server initialisation : In progress..." >> /var/log/userdata.txt
-          kubeadm init --apiserver-advertise-address=$PRIVATE_IP --node-name $HOSTNAME --pod-network-cidr=192.168.0.0/16
-          cho "k8s server initialisation : Completed." >> /var/log/userdata.txt
+          kubeadm init --apiserver-advertise-address=$PRIVATE_IP --node-name $HOSTNAME --pod-network-cidr=192.168.0.0/16 && mkdir -p $HOME/.kube && cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && chown $(id -u):$(id -g) $HOME/.kube/config
+          echo "k8s server initialisation : Completed." >> /var/log/userdata.txt
 
   #
   # 
@@ -394,12 +408,25 @@ Resources:
           
           echo "Docker installation : In progress..." >> /var/log/userdata.txt
           amazon-linux-extras install docker
+          cat <<EOF | sudo tee /etc/docker/daemon.json
+          {
+            "exec-opts": ["native.cgroupdriver=systemd"],
+            "log-driver": "json-file",
+            "log-opts": {
+              "max-size": "100m"
+            },
+            "storage-driver": "overlay2"
+          }
+          EOF
           usermod -a -G docker ec2-user
-          systemctl start docker
+          systemctl enable docker
+          systemctl daemon-reload
+          systemctl restart docker
           echo "Docker installation : Completed." >> /var/log/userdata.txt
           
           echo "k8s installation : In progress..." >> /var/log/userdata.txt
           swapoff -a
+          sysctl net.bridge.bridge-nf-call-iptables=1
           cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
           [kubernetes]
           name=Kubernetes
@@ -413,5 +440,6 @@ Resources:
           setenforce 0
           sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
           yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
-          systemctl enable --now kubelet
+          systemctl enable kubelet
+          systemctl start kubelet
           echo "k8s installation : Completed." >> /var/log/userdata.txt
