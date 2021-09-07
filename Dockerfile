@@ -1,6 +1,6 @@
 FROM docker.io/library/ubuntu:latest
 
-RUN apt update && apt install nginx
+RUN apt update -y && apt install nginx -y
 
 COPY ./artefacts/index.html /usr/share/nginx/html/index.html
 
