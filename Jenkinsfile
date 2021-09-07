@@ -49,11 +49,14 @@ pipeline {
             }
         }    
         stage('Staging deployment') {
-            steps {
+            try {
                 echo 'Running docker image...'
                 sh "CD=red"
                 sh "docker run --env creation_date=$CD -d -p 8345:80 sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
                 echo 'Run OK'
+            } catch (error) {
+            } finally {
+                echo 'Finally'
             }
         }   
         stage('Performance') {
