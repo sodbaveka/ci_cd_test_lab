@@ -26,7 +26,9 @@ pipeline {
             steps {
                 echo 'Packaging...'
                 sh "mkdir -p artefacts"
-                sh "echo artefact-${BUILD_TAG} > artefacts/index.html"
+                sh 'echo "<H1>" > artefacts/index.html'
+                sh "echo artefact-${BUILD_TAG} >> artefacts/index.html"
+                sh 'echo "<H1>" >> artefacts/index.html'
                 sh "cat artefacts/index.html"
                 echo 'OK'
             }
