@@ -65,7 +65,7 @@ pipeline {
             steps {
                 echo 'Deploying...'
                 echo 'OK'
-            }{}
+            }
         }   
         stage('Monitoring') {
             steps {
