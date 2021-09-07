@@ -1,4 +1,4 @@
-FROM docker.io/library/ubuntu:latest
+FROM docker.io/library/debian:latest
 
 RUN apt update -y && apt install nginx -y
 
