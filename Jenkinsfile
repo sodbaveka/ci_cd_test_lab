@@ -55,6 +55,7 @@ pipeline {
                 sh "docker run --env creation_date=$CD -d -p 8345:80 sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
                 echo 'Run OK'
             } catch (error) {
+                echo 'Error'
             } finally {
                 echo 'Finally'
             }
