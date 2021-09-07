@@ -53,7 +53,7 @@ pipeline {
                 script {
                     try {
                         echo 'Running docker image...'
-                        sh "docker run -e creation_date=red -d -p 8345:80 sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
+                        sh "docker run -e creation_dateR=red -d -p 8345:80 sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
                         echo 'Run OK'  
                     } catch (error) {
                         echo 'Error'
