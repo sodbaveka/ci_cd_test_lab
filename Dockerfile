@@ -1,6 +1,6 @@
 FROM docker.io/library/nginx:latest
 
-ENV creation_date='blue'
+ENV creation_date=$valeur_date
 
 COPY ./artefacts/index.html /usr/share/nginx/html/index.html
 
