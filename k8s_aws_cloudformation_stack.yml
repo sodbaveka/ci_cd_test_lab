@@ -370,7 +370,7 @@ Resources:
           echo "k8s installation : Completed." >> /var/log/userdata.txt
 
           echo "k8s server initialisation : In progress..." >> /var/log/userdata.txt
-          kubeadm init --apiserver-advertise-address=$PRIVATE_IP --node-name $HOSTNAME --pod-network-cidr=192.168.0.0/16 && mkdir -p $HOME/.kube && cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && chown $(id -u):$(id -g) $HOME/.kube/config
+          kubeadm init --apiserver-advertise-address=$PRIVATE_IP --node-name $HOSTNAME --pod-network-cidr=192.168.0.0/16 && mkdir -p $HOME/.kube && cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && chown $(id -u):$(id -g) $HOME/.kube/config && kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
           echo "k8s server initialisation : Completed." >> /var/log/userdata.txt
 
   #
