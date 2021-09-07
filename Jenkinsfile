@@ -51,7 +51,8 @@ pipeline {
         stage('Staging deployment') {
             steps {
                 echo 'Running docker image...'
-                sh "docker run --env creation_date='red' -d -p 8345:80 sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
+                sh 'export creation_date=red'
+                sh "docker run --env creation_date -d -p 8345:80 sodbaveka/sodbaveka-app:v1.0.${BUILD_NUMBER}"
                 echo 'Run OK'
             }
         }   
