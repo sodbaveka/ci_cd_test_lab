@@ -51,6 +51,7 @@ I created this repository as a lab to discover ci/cd, jenkins, docker, and kuber
     * Deploying personal containers from personal repository
     * Scaling
 
+* Stage 3
 ...In progress...
 
 Please feel free to message me if you have any questions.
