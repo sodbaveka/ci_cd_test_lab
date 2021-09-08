@@ -2,7 +2,8 @@
 ### Generalities
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  AWS CloudFormation Full Infrastructure Template
+  Using AWS CloudFormation Full Infrastructure Template :
+  Creation of 1 jenkins server +  1 staging ec2
 #
 #
 ### Create ressources
@@ -60,15 +61,15 @@ Resources:
         - Key: Name
           Value: 'sodbaveka-public-a'
       VpcId: !Ref SodbavekaVPC  
-  PublicSubnetB:
-    Type: AWS::EC2::Subnet
-    Properties:
-      AvailabilityZone: eu-west-3b
-      CidrBlock: 10.0.2.0/24
-      Tags:
-        - Key: Name
-          Value: 'sodbaveka-public-b'
-      VpcId: !Ref SodbavekaVPC 
+  # PublicSubnetB:
+  #   Type: AWS::EC2::Subnet
+  #   Properties:
+  #     AvailabilityZone: eu-west-3b
+  #     CidrBlock: 10.0.2.0/24
+  #     Tags:
+  #       - Key: Name
+  #         Value: 'sodbaveka-public-b'
+  #     VpcId: !Ref SodbavekaVPC 
   # PublicSubnetC:
   #   Type: AWS::EC2::Subnet
   #   Properties:
@@ -117,13 +118,13 @@ Resources:
       Tags:
         - Key: Name
           Value: 'sodbaveka-route-public-a'
-  PublicRouteTableB:
-    Type: AWS::EC2::RouteTable
-    Properties: 
-      VpcId: !Ref SodbavekaVPC
-      Tags:
-        - Key: Name
-          Value: 'sodbaveka-route-public-b'
+  # PublicRouteTableB:
+  #   Type: AWS::EC2::RouteTable
+  #   Properties: 
+  #     VpcId: !Ref SodbavekaVPC
+  #     Tags:
+  #       - Key: Name
+  #         Value: 'sodbaveka-route-public-b'
   # PublicRouteTableC:
   #   Type: AWS::EC2::RouteTable
   #   Properties: 
@@ -158,11 +159,11 @@ Resources:
     Properties:
       RouteTableId: !Ref PublicRouteTableA
       SubnetId: !Ref PublicSubnetA
-  AttachPublicRouteTableB:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref PublicRouteTableB
-      SubnetId: !Ref PublicSubnetB
+  # AttachPublicRouteTableB:
+  #   Type: AWS::EC2::SubnetRouteTableAssociation
+  #   Properties:
+  #     RouteTableId: !Ref PublicRouteTableB
+  #     SubnetId: !Ref PublicSubnetB
   # AttachPublicRouteTableC:
   #   Type: AWS::EC2::SubnetRouteTableAssociation
   #   Properties:
@@ -190,13 +191,13 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref InternetGateway
       RouteTableId: !Ref PublicRouteTableA
-  ### Next step : Create routes for the public subnet of Availability Zone B
-  PublicRouteB:
-    Type: AWS::EC2::Route
-    Properties: 
-      DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: !Ref InternetGateway
-      RouteTableId: !Ref PublicRouteTableB
+  # ### Next step : Create routes for the public subnet of Availability Zone B
+  # PublicRouteB:
+  #   Type: AWS::EC2::Route
+  #   Properties: 
+  #     DestinationCidrBlock: 0.0.0.0/0
+  #     GatewayId: !Ref InternetGateway
+  #     RouteTableId: !Ref PublicRouteTableB
   # ### Next step : Create routes for the public subnet of Availability Zone C
   # PublicRouteC:
   #   Type: AWS::EC2::Route
@@ -249,137 +250,8 @@ Resources:
           Value: 'P14_OCR'
   #
   #
-  # ### Next step : Create jenkins EC2 instance 
-  # AwsJenkinsEc2:
-  #   Type : AWS::EC2::Instance
-  #   Properties:
-  #     InstanceType: t2.micro
-  #     ImageId: ami-00c08ad1a6ca8ca7c
-  #     KeyName: P10-aws
-  #     NetworkInterfaces:
-  #       - AssociatePublicIpAddress: true
-  #         DeviceIndex: "0"
-  #         GroupSet: 
-  #           - !Ref InfraEC2SecurityGroup
-  #         SubnetId: !Ref PublicSubnetA
-  #     Tags:
-  #       - Key: Name
-  #         Value: 'sodbaveka-jenkins-ec2'
-  #       - Key: Project
-  #         Value: 'P14_OCR'
-  #     UserData: 
-  #       'Fn::Base64': !Sub |
-  #         #!/bin/bash
-  #         export STACK_NAME=${AWS::StackName}
-  #         echo "Stack name : "$STACK_NAME > /home/ec2-user/TEMOIN-001
-  #         echo "Who am i ? AwsJenkinsEc2" >> /home/ec2-user/TEMOIN-001
-
-  #         echo "OS update : In progress..." >> /var/log/userdata.txt
-  #         yum update -y && echo "OS update : Completed." >> /var/log/userdata.txt
-
-  #         amazon-linux-extras install epel -y
-          
-  #         echo "Jenkins installation : In progress..." >> /var/log/userdata.txt
-  #         wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-  #         rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-  #         yum upgrade
-  #         amazon-linux-extras install java-openjdk11 -y  
-  #         yum install git -y      
-  #         yum install -y jenkins
-  #         systemctl enable jenkins
-  #         systemctl start jenkins
-  #         echo "Jenkins installation : Completed." >> /var/log/userdata.txt
-
-  #         echo "Docker installation : In progress..." >> /var/log/userdata.txt
-  #         amazon-linux-extras install docker
-  #         systemctl enable docker
-  #         usermod -a -G docker ec2-user
-  #         usermod -a -G docker jenkins
-  #         echo "Docker installation : Completed." >> /var/log/userdata.txt
-  #         reboot
- #
- #
-  ### Next step : Create staging EC2 cluster 
-  kubemaster01:
-    Type : AWS::EC2::Instance
-    Properties:
-      InstanceType: t2.medium
-      ImageId: ami-00c08ad1a6ca8ca7c
-      KeyName: P10-aws
-      NetworkInterfaces:
-        - AssociatePublicIpAddress: true
-          DeviceIndex: "0"
-          GroupSet: 
-            - !Ref InfraEC2SecurityGroup
-          SubnetId: !Ref PublicSubnetB
-      Tags:
-        - Key: Name
-          Value: 'sodbaveka-staging-kubemaster'
-        - Key: Project
-          Value: 'P14_OCR'
-      UserData: 
-        'Fn::Base64': !Sub |
-          #!/bin/bash
-          export STACK_NAME=${AWS::StackName}
-          echo "Stack name : "$STACK_NAME > /home/ec2-user/TEMOIN-001
-          echo "Who am i ? : "$HOSTNAME >> /home/ec2-user/TEMOIN-001
-          export PRIVATE_IP="$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)"
-          echo "Private ip ? : "$PRIVATE_IP >> /home/ec2-user/TEMOIN-001
-
-          echo "OS update : In progress..." >> /var/log/userdata.txt
-          yum update -y && echo "OS update : Completed." >> /var/log/userdata.txt
-
-          amazon-linux-extras install epel -y
-          
-          echo "Docker installation : In progress..." >> /var/log/userdata.txt
-          amazon-linux-extras install docker
-          cat <<EOF | sudo tee /etc/docker/daemon.json
-          {
-            "exec-opts": ["native.cgroupdriver=systemd"],
-            "log-driver": "json-file",
-            "log-opts": {
-              "max-size": "100m"
-            },
-            "storage-driver": "overlay2"
-          }
-          EOF
-          usermod -a -G docker ec2-user
-          systemctl enable docker
-          systemctl daemon-reload
-          systemctl restart docker
-          echo "Docker installation : Completed." >> /var/log/userdata.txt
-
-          echo "k8s installation : In progress..." >> /var/log/userdata.txt
-          swapoff -a
-          sysctl net.bridge.bridge-nf-call-iptables=1
-          cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
-          [kubernetes]
-          name=Kubernetes
-          baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
-          enabled=1
-          gpgcheck=1
-          repo_gpgcheck=1
-          gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-          exclude=kubelet kubeadm kubectl
-          EOF
-          setenforce 0
-          sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
-          yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
-          systemctl enable kubelet
-          systemctl start kubelet
-          echo "k8s installation : Completed." >> /var/log/userdata.txt
-
-          echo "k8s server initialisation : In progress..." >> /var/log/userdata.txt
-          kubeadm init --apiserver-advertise-address=$PRIVATE_IP --node-name $HOSTNAME --pod-network-cidr=192.168.0.0/16
-          mkdir -p $HOME/.kube
-          cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-          chown $(id -u):$(id -g) $HOME/.kube/config
-          kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-          echo "k8s server initialisation : Completed." >> /var/log/userdata.txt
-
-  #
-  # 
-  kubeworker01:
+  ### Next step : Create jenkins EC2 instance 
+  AwsJenkinsEc2:
     Type : AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
@@ -390,10 +262,10 @@ Resources:
           DeviceIndex: "0"
           GroupSet: 
             - !Ref InfraEC2SecurityGroup
-          SubnetId: !Ref PublicSubnetB
+          SubnetId: !Ref PublicSubnetA
       Tags:
         - Key: Name
-          Value: 'sodbaveka-staging-kubeworker'
+          Value: 'sodbaveka-jenkins-ec2'
         - Key: Project
           Value: 'P14_OCR'
       UserData: 
@@ -401,9 +273,57 @@ Resources:
           #!/bin/bash
           export STACK_NAME=${AWS::StackName}
           echo "Stack name : "$STACK_NAME > /home/ec2-user/TEMOIN-001
-          echo "Who am i ? : "$HOSTNAME >> /home/ec2-user/TEMOIN-001
-          export PRIVATE_IP="$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)"
-          echo "Private ip ? : "$PRIVATE_IP >> /home/ec2-user/TEMOIN-001
+          echo "Who am i ? AwsJenkinsEc2" >> /home/ec2-user/TEMOIN-001
+
+          echo "OS update : In progress..." >> /var/log/userdata.txt
+          yum update -y && echo "OS update : Completed." >> /var/log/userdata.txt
+
+          amazon-linux-extras install epel -y
+          
+          echo "Jenkins installation : In progress..." >> /var/log/userdata.txt
+          wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+          rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+          yum upgrade
+          amazon-linux-extras install java-openjdk11 -y  
+          yum install git -y      
+          yum install -y jenkins
+          systemctl enable jenkins
+          systemctl start jenkins
+          echo "Jenkins installation : Completed." >> /var/log/userdata.txt
+
+          echo "Docker installation : In progress..." >> /var/log/userdata.txt
+          amazon-linux-extras install docker
+          systemctl enable docker
+          usermod -a -G docker ec2-user
+          usermod -a -G docker jenkins
+          echo "Docker installation : Completed." >> /var/log/userdata.txt
+          reboot
+ #
+ #
+ ### Next step : Create staging EC2 instance 
+  AwsStagingEc2:
+    Type : AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-00c08ad1a6ca8ca7c
+      KeyName: P10-aws
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: "0"
+          GroupSet: 
+            - !Ref InfraEC2SecurityGroup
+          SubnetId: !Ref PublicSubnetA
+      Tags:
+        - Key: Name
+          Value: 'sodbaveka-staging-ec2'
+        - Key: Project
+          Value: 'P14_OCR'
+      UserData: 
+        'Fn::Base64': !Sub |
+          #!/bin/bash
+          export STACK_NAME=${AWS::StackName}
+          echo "Stack name : "$STACK_NAME > /home/ec2-user/TEMOIN-001
+          echo "Who am i ? AwsStagingEc2" >> /home/ec2-user/TEMOIN-001
 
           echo "OS update : In progress..." >> /var/log/userdata.txt
           yum update -y && echo "OS update : Completed." >> /var/log/userdata.txt
@@ -412,38 +332,11 @@ Resources:
           
           echo "Docker installation : In progress..." >> /var/log/userdata.txt
           amazon-linux-extras install docker
-          cat <<EOF | sudo tee /etc/docker/daemon.json
-          {
-            "exec-opts": ["native.cgroupdriver=systemd"],
-            "log-driver": "json-file",
-            "log-opts": {
-              "max-size": "100m"
-            },
-            "storage-driver": "overlay2"
-          }
-          EOF
           usermod -a -G docker ec2-user
-          systemctl enable docker
-          systemctl daemon-reload
-          systemctl restart docker
+          systemctl start docker
           echo "Docker installation : Completed." >> /var/log/userdata.txt
+
+          echo "Start the application : In progress..." >> /var/log/userdata.txt
+          docker run -d -p 8234:80 sodbaveka/sodbaveka-app:latest
+          echo "Start the application : Completed." >> /var/log/userdata.txt
           
-          echo "k8s installation : In progress..." >> /var/log/userdata.txt
-          swapoff -a
-          sysctl net.bridge.bridge-nf-call-iptables=1
-          cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
-          [kubernetes]
-          name=Kubernetes
-          baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
-          enabled=1
-          gpgcheck=1
-          repo_gpgcheck=1
-          gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-          exclude=kubelet kubeadm kubectl
-          EOF
-          setenforce 0
-          sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
-          yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
-          systemctl enable kubelet
-          systemctl start kubelet
-          echo "k8s installation : Completed." >> /var/log/userdata.txt

@@ -13,31 +13,43 @@ Hello World!
 My name is Mickaël alias sodbaveka.
 I created this repository as a lab to discover ci/cd, jenkins, docker, and kubernetes.
 
-* Creating a cloudformation file to instanciate ec2 jenkins server on a personnal VPC
-    * OS update
-    * Java installation
-    * Jenkins installation
-    * Docker installation
-* Creating Jenkinsfile with different stages :
-    * Build
-    * Test
-    * Quality
-    * Package
-    * Built and push docker image
-    * Staging deployment
-    * Performance
-    * Production
-    * Monitoring
-    * Notification
-* Connecting to jenkins ec2 server http://public_ip:8123
-* Configurating jenkins ec2 server
-    * Creating credentials "dockerhub" to login to Docker Hub
-    * Creating a multi-pipeline project and clone GitHub repository
-* Modifying cloudformation file to instanciate ec2 staging server
-    * OS update
-    * Docker installation
-    * Run docker latest image
-* Connecting to staging ec2 server http://public_ip:8234
+* Stage 1
+    * Creating a cloudformation file to instanciate ec2 jenkins server on a personnal VPC
+        * OS update
+        * Java installation
+        * Jenkins installation
+        * Docker installation
+    * Creating Jenkinsfile with different stages :
+        * Build
+        * Test
+        * Quality
+        * Package
+        * Built and push docker image
+        * Staging deployment
+        * Performance
+        * Production
+        * Monitoring
+        * Notification
+    * Connecting to jenkins ec2 server http://public_ip:8123
+    * Configurating jenkins ec2 server
+        * Creating credentials "dockerhub" to login to Docker Hub
+        * Creating a multi-pipeline project and clone GitHub repository
+    * Modifying cloudformation file to instanciate ec2 staging server
+        * OS update
+        * Docker installation
+        * Run docker latest image
+    * Connecting to staging ec2 server http://public_ip:8234
+
+* Stage 2
+    * Creating a k8s cluster with 1 master and 1 worker on a personnal VPC
+        * OS update
+        * Docker installation 
+        * Kubernetes installation
+    * Configurating k8s master
+        * Cluster initialisation
+        * Network solution = Flannel
+    * Deploying personal containers from personal repository
+    * Scaling
 
 ...In progress...
 
