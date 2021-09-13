@@ -19,7 +19,6 @@ pipeline {
         stage('Quality') {
             steps {
                 echo 'Analysing code quality...'
-                sh 'python3 src/QualityScript'
             }
         }
         stage('Package') {
