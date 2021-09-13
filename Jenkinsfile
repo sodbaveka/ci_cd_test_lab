@@ -19,6 +19,7 @@ pipeline {
         stage('Quality') {
             steps {
                 echo 'Analysing code quality...'
+                sh 'src/QualityScript'
             }
         }
         stage('Package') {
