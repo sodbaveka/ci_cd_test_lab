@@ -52,6 +52,7 @@ I created this repository as a lab to discover ci/cd, jenkins, docker, and kuber
     * Scaling
 
 * Stage 3
+
 ...In progress...
 
 Please feel free to message me if you have any questions.
@@ -73,7 +74,7 @@ A list of technologies used within the project :
 ***
 * Download :
 ```
-$  git clone https://github.com/sodbaveka/jenkins_on_aws_test_lab.git
+$  https://github.com/sodbaveka/ci_cd_test_lab.git
 ```
 
 * Launch :
